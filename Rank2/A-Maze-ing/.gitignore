@@ -1,0 +1,12 @@
+.env/
+
+maze.txt
+
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+uv.lock

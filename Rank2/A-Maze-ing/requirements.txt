@@ -1,0 +1,9 @@
+# MiniLibX
+./mlx-2.2-py3-none-any.whl
+# needed for parsing txt
+python-dotenv
+# for make lint / make lint-strict
+flake8
+mypy
+# for building whl file
+build

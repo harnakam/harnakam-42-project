@@ -1,0 +1,11 @@
+
+WIDTH=42
+HEIGHT=42
+ENTRY=0, 0
+EXIT=41, 41
+OUTPUT_FILE=maze.txt
+#Is the maze perfect?
+PERFECT=False
+SEED=42
+ALGORITHM=growing_tree # comment out
+DISPLAY   = auto

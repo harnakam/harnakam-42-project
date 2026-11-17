@@ -1,0 +1,56 @@
+[build-system]
+# ビルド時だけ使う道具。build が一時的な隔離環境を作り、そこに入れる
+# （.env には入らない）。license を文字列で書く形式は setuptools 77 以降が対応。
+# ↑これが入っていない事態を想定するなら、requirements.txtに追記するべきか？
+requires = ["setuptools>=77", "wheel"]
+# 実際にビルドを行うプログラム（ビルドバックエンド）。setuptools を使うので setup.py は不要。
+build-backend = "setuptools.build_meta"
+# ↑これが入っていない事態を想定するなら、requirements.txtに追記するべきか？
+
+# ------------------------------------------------------------
+# [project] : パッケージそのものの情報（wheel の METADATA に書き込まれる）
+# ------------------------------------------------------------
+[project]
+# パッケージ名。成果物のファイルの先頭になる。
+# mazegenにしておけばmazegen-1.0.0-py3-none-any.whlといった名前になってくれる(subjectの要請通り) 
+# pip install / pip uninstall で使う名前でもある。
+name = "mazegen"
+# バージョン。ソースを変えて配り直すなら上げる。
+version = "1.0.0"
+# pip show mazegenの表示内容
+description = "Reusable maze generation module."
+readme = "mazegen/README.md"
+# 3.10より古い Python では pip　が拒否する。
+requires-python = ">=3.10"
+# ライセンス（SPDX 形式の文字列）。旧形式 { text = "MIT" } は非推奨で警告が出る。
+license = "MIT"
+# ライセンス本文。wheel の dist-info/licenses/ と sdist に同梱される。
+# 課題 VI 章の要請でリポジトリ直下（= submit/）に置いている。
+license-files = ["LICENSE.md"]
+# mazegen は標準ライブラリしか import していないので依存なし。
+dependencies = []
+
+
+# ------------------------------------------------------------
+# [tool.setuptools.packages.find] : wheel に「どのディレクトリを入れるか」
+# ------------------------------------------------------------
+# setuptools 専用の設定。where の中から __init__.py を持つディレクトリを探し、
+# include に一致するものだけをパッケージとして wheel に入れる。
+# 以前の `packages = ["mazegen"]` は mazegen/ 直下のファイルしか入れず、
+# サブパッケージ mazegen/algorithms/ が wheel から漏れていた。
+# "mazegen*" は "mazegen" と "mazegen.algorithms" の両方に一致し、
+# 今後 mazegen/ 以下にサブパッケージが増えても自動で含まれる。
+# display/ は一致しないので入らない。
+[tool.setuptools.packages.find]
+where = ["."]             # 探す起点（この pyproject.toml がある submit/）
+include = ["mazegen*"]    # 入れるパッケージ名のパターン
+
+
+# ------------------------------------------------------------
+# [tool.pylint.main] : submit/ で pylint を実行したときの設定
+# (pylint は提出物では使わないので、dev_tests/requirements.txt で入れる)
+# ------------------------------------------------------------
+# 仮想環境やビルドの生成物は検査対象のソースではないので外す。
+# ignore にはパスではなくディレクトリ・ファイルの名前を書く。
+[tool.pylint.main]
+ignore = [".env", "build", "dist"]
