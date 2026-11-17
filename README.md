@@ -90,6 +90,6 @@
 
 <div align="center">
   <sub>
-    Made at <b>42 Tokyo</b> by <a href="https://github.com/harnakam">harnakam</a>
+    Coded at <b>42 Tokyo</b> by <a href="https://github.com/harnakam">harnakam</a>
   </sub>
 </div>
